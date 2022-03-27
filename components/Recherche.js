@@ -7,7 +7,7 @@ const RechercheScreen = () => {
 
     const [artiste, setArtiste] = useState('');
     const [resultats, setResultats] = useState([]);
-    const [artistes_perso, setArtistesPerso] = useState([]);
+    const [message, setMessage] = useState("");
 
     const [valideRecherche, setValidate] = useState(false);
 
@@ -28,6 +28,8 @@ const RechercheScreen = () => {
         let request = await fetch(`${baseURL}?term=${params}`);
         let json = await request.json();
         let matchingArtists = json["results"];
+        if (matchingArtists.length == 0 )
+            setMessage("Aucun résultat");
         setResultats(matchingArtists);
     };
 
@@ -48,16 +50,22 @@ const RechercheScreen = () => {
             <Button title='Rechercher' disabled={!valideRecherche} onPress={fetchDatas} style={{marginTop: "10px"}} />
             <StatusBar style="auto" />
 
-            <FlatList style={{ marginBottom: 10 }}
+            <Text>{message}</Text>
+
+            <FlatList style={{ marginBottom: 10, marginTop:"20px" }}
                 data={resultats}
                 renderItem={({ item }) => (
-                    <Pressable onPress={() => navigation.navigate("Détail", { data: item })}>
-                        <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', height: '50px', borderBottom: '1px solid grey' }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{item.artistName}</Text>
-                            <Text>{ item.kind ? ` (${item.kind})`: ""}</Text>
-                            <Text>{item.trackName ? " - " + item.trackName : ""}</Text>
-                            <Text>{item.collectionName ? " - " + item.collectionName : ""}</Text>
-                        </View>
+                    <Pressable onPress={() => navigation.navigate("Détail", { data: item })} style={{justifyContent: "space-between", flexDirection: "row", paddingBottom: "10px"}}>
+                            <View style={{ flexDirection: 'row', height: '50px', borderBottom: '1px solid grey' }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{item.artistName}</Text>
+                                <Text>{ item.kind ? ` (${item.kind})`: ""}</Text>
+                                <Text>{item.trackName ? " - " + item.trackName : ""}</Text>
+                                <Text>{item.collectionName ? " - " + item.collectionName : ""}</Text>                       
+                            </View>
+
+                            <Pressable onPress={() => navigation.navigate("Favoris", { item: item })} style={{ height: "40px", border:'1px solid blue', padding: "10px", marginRight:"10px" }}>
+                                <Text style={{ textAlign: "center", color:"blue" }}>Add to favorites</Text>
+                            </Pressable> 
                     </Pressable>
                 )}
                 keyExtractor={(item) => item.wrapperType == "artist" ? item.artistId : item.trackId}
