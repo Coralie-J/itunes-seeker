@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { RechercheScreen } from './Recherche';
 import { FavorisScreen } from './Add';
 
+
 const TabScreen = () => {
     const Tabs = createBottomTabNavigator();
 

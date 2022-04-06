@@ -5,6 +5,8 @@ const DetailScreen = () => {
 
     const route = useRoute();
     let data = route.params.data;
+    //useSelector(TrackSelector);
+    // route.params.data;
 
     if (data != null) {
 
