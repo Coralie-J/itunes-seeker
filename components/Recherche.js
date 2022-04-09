@@ -44,10 +44,10 @@ const RechercheScreen = () => {
             dispatch(addFavoriteTrack(item));
     };
 
-    const showDetails = (item) => {
+    /*const showDetails = (item) => {
         dispatch(setTrack(item));
         navigation.navigate("Détail");
-    };
+    };*/
 
 
     useEffect(() => {
@@ -71,7 +71,7 @@ const RechercheScreen = () => {
             <FlatList style={{ marginBottom: 10, marginTop:"20px" }}
                 data={resultats}
                 renderItem={({ item }) => (
-                    <Pressable onPress={showDetails(item)} /*onPress={() => navigation.navigate("Détail", { data: item })}*/ style={{justifyContent: "space-between", flexDirection: "row", paddingBottom: "10px"}}>
+                    <Pressable onPress={() => navigation.navigate("Détail", { data: item })} style={{justifyContent: "space-between", flexDirection: "row", paddingBottom: "10px"}}>
                             <View style={{ flexDirection: 'row', height: '50px', borderBottom: '1px solid grey' }}>
                                 <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{item.artistName}</Text>
                                 <Text>{ item.kind ? ` (${item.kind})`: ""}</Text>

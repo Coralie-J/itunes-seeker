@@ -18,11 +18,23 @@ const favorisTracksSlice = createSlice({
             }];
         },
         addNote: (state, action) => {
-            return state.map((item) => {
-                if (action.payload.id == item.id)
-                    item.note = action.payload.note;
-            });
-        }
+            let alreadyPresent = state
+                .map((elm) => elm.id)
+                .includes(action.payload.id);
+
+            if (alreadyPresent) {
+                return state.map((item) =>
+                    item.id == action.payload.id
+                        ? { ...item, note: action.payload.note }
+                        : item
+                );
+            } else {
+                return state;
+            }
+            /*return state.map((item) => {
+                action.payload.id == item.id ? { ...item, note: action.payload.note } : item;
+            });*/
+        },
     }
 });
 

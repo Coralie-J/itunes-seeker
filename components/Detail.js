@@ -5,8 +5,6 @@ const DetailScreen = () => {
 
     const route = useRoute();
     let data = route.params.data;
-    //useSelector(TrackSelector);
-    // route.params.data;
 
     if (data != null) {
 
@@ -38,13 +36,13 @@ const DetailScreen = () => {
                 </ScrollView>
             );
         }
-    }
+    };
 
     return (
         <View>
             <Text> Rien n'a été selectionné</Text>
         </View>
     );
-}
+};
 
 export { DetailScreen };

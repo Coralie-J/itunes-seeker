@@ -21,4 +21,5 @@ const favorisArtistSlice = createSlice({
 
 export const { setFavoritesArtist, addNoteArtiste } = favorisArtistSlice.actions;
 export const favoriteArtistsSelector = (state) => state.artists;
+// export const filteredFavoriteArtistsSelector = (state, id) => { return state.artists.filter((elm) => elm.id == id); };
 export default favorisArtistSlice.reducer;

@@ -1,21 +1,14 @@
 import {Text, View, Image, FlatList, Pressable } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { favoriteArtistsSelector } from "./favorisArtistSlice";
 import { favoriteTracksSelector } from "./favorisTrackSlice";
-import { setTrack } from "./DetailSlice";
 import { useNavigation } from "@react-navigation/native";
 
 const FavorisScreen = () => {
 
     const favoritesTracks = useSelector(favoriteTracksSelector);
     const favorisArtists = useSelector(favoriteArtistsSelector);
-    const dispatch = useDispatch();
     const navigation = useNavigation();
-
-    const joinNote = (item) => {
-        // dispatch(setTrack(item)); 
-        //navigation.navigate("Add note");
-    }
 
     return (
         <View>
@@ -23,8 +16,8 @@ const FavorisScreen = () => {
             <FlatList style={{ marginBottom: 10 }}
                 data={favoritesTracks}
                 renderItem={({ item }) => (
-                    <Pressable onPress={joinNote(item)}>
-                        <View style={{ width: '100%', flexDirection: 'row', height: '90px', borderBottom: '1px solid grey', marginTop: "10px" }}>
+                    <Pressable onPress={() => navigation.navigate("Note", {id: item.id })} >
+                        <View style={{ width: '100%', flexDirection: 'row', height: '110px', borderBottom: '1px solid grey', marginTop: "10px" }}>
                         <Image source={item.image} style={{ resizeMode: "contain", width: "5%", height: "70px", marginTop:'5px' }} />
                             <View>
                                 <Text> Titre : {item.titre}</Text>
@@ -32,6 +25,7 @@ const FavorisScreen = () => {
                                 <Text> Artiste : {item.artiste}</Text>
                                 <Text> Genre : {item.genre}</Text>
                                 <Text> Type de track : {item.type}</Text>
+                                <Text>{item.note ? ` Note : ${item.note}/5` : "Non noté"}</Text>
                             </View>
                         </View>
                     </Pressable>
