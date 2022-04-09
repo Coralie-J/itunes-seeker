@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, TextInput, View, Text, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { addNote } from "./favorisTrackSlice";
-import { favoriteTracksSelector } from './favorisTrackSlice';
+import { addNote, favoritesTracksSelector } from "./favorisSlice";
 import { useRoute } from "@react-navigation/native";
 
 const NoteScreen = () => {
@@ -13,7 +12,7 @@ const NoteScreen = () => {
     let item;
     const route = useRoute();
 
-    let favoritesTrack = useSelector(favoriteTracksSelector);
+    let favoritesTrack = useSelector(favoritesTracksSelector);
 
     const selectItem = (liste, id) => {
         for (let track of liste) {

@@ -1,13 +1,12 @@
 import {Text, View, Image, FlatList, Pressable } from "react-native";
 import { useSelector } from "react-redux";
-import { favoriteArtistsSelector } from "./favorisArtistSlice";
-import { favoriteTracksSelector } from "./favorisTrackSlice";
+import { favoritesTracksSelector, favoritesArtistsSelector } from "./favorisSlice";
 import { useNavigation } from "@react-navigation/native";
 
 const FavorisScreen = () => {
 
-    const favoritesTracks = useSelector(favoriteTracksSelector);
-    const favorisArtists = useSelector(favoriteArtistsSelector);
+    const favoritesTracks = useSelector(favoritesTracksSelector);
+    const favorisArtists = useSelector(favoritesArtistsSelector);
     const navigation = useNavigation();
 
     return (

@@ -1,6 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import favoriteTracksReducer from "./components/favorisTrackSlice";
-import favorisArtistReducer from "./components/favorisArtistSlice";
+import favoritesSelector from "./components/favorisSlice";
 import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-community/async-storage';
 import { persistReducer } from "redux-persist";
@@ -8,8 +7,7 @@ import storage from 'redux-persist/lib/storage';
 
 
 const reducers = combineReducers({ 
-    tracks: favoriteTracksReducer, 
-    artists: favorisArtistReducer
+    favoris: favoritesSelector
  });
 
  const persistConfig = {

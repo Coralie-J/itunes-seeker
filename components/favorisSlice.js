@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import uuid from "react-uuid";
 
 const favorisTracksSlice = createSlice({
-    name: "tracks",
+    name: "favoris",
     initialState: [],
     reducers: {
         addFavoriteTrack: (state, action) => {
@@ -16,6 +16,10 @@ const favorisTracksSlice = createSlice({
                 image: action.payload.artworkUrl100,
                 type: action.payload.kind
             }];
+        },
+        addFavoriteArtiste: (state, action) => {
+            let id = uuid();
+            return [...state, { id: id, nom: action.payload.artistName, genre: action.payload.primaryGenreName, type: "artist" }];
         },
         addNote: (state, action) => {
             let alreadyPresent = state
@@ -31,13 +35,12 @@ const favorisTracksSlice = createSlice({
             } else {
                 return state;
             }
-            /*return state.map((item) => {
-                action.payload.id == item.id ? { ...item, note: action.payload.note } : item;
-            });*/
         },
     }
 });
 
-export const { addFavoriteTrack, addNote } = favorisTracksSlice.actions;
-export const favoriteTracksSelector = (state) => state.tracks;
+export const { addFavoriteTrack, addNote, addFavoriteArtiste } = favorisTracksSlice.actions;
+export const favoritesSelector = (state) => state.favoris;
+export const favoritesArtistsSelector = (state) => state.favoris.filter((elm) => elm.type == "artist");
+export const favoritesTracksSelector = (state) => state.favoris.filter((elm) => elm.type != "artist");
 export default favorisTracksSlice.reducer;

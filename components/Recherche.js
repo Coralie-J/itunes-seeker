@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, FlatList, Pressable } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
-import { addFavoriteTrack } from './favorisTrackSlice';
-import { setFavoritesArtist } from './favorisArtistSlice';
+import { addFavoriteTrack, addFavoriteArtiste } from './favorisSlice';
 import { useDispatch } from "react-redux";
 
 const RechercheScreen = () => {
@@ -35,7 +34,7 @@ const RechercheScreen = () => {
 
     const addResultsToResults = (item) => {
         if (item.wrapperType == "artist")
-            dispatch(setFavoritesArtist(item));
+            dispatch(addFavoriteArtiste(item));
         else
             dispatch(addFavoriteTrack(item));
     };
@@ -49,7 +48,7 @@ const RechercheScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Text> Recherche par nom de track : </Text>
+            <Text> Recherche : </Text>
             <TextInput value={recherche} onChangeText={setRecherche} />
             <View style={{ flexDirection: "row"}} >
                 <Text>Recherche par : </Text>
