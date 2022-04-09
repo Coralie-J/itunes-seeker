@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, FlatList, Pressable } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
 import { addFavoriteTrack } from './favorisTrackSlice';
 import { setFavoritesArtist } from './favorisArtistSlice';
@@ -8,28 +9,23 @@ import { useDispatch } from "react-redux";
 
 const RechercheScreen = () => {
 
-    const [artiste, setArtiste] = useState('');
+    const [recherche, setRecherche] = useState('');
     const [resultats, setResultats] = useState([]);
     const [message, setMessage] = useState("");
+
+    const [parArtiste, setParArtiste] = useState(false);
+    const [parTrack, setParTrack] = useState(false);
 
     const [valideRecherche, setValidate] = useState(false);
     const dispatch = useDispatch();
 
     const navigation = useNavigation();
-
-    const [track, setTrack] = useState('');
     const baseURL = " https://itunes.apple.com/search";
 
 
     const fetchDatas = async () => {
-        let params;
-
-        if (artiste != "")
-            params = `${artiste}&entity=allArtist`;
-        else if (track != "")
-            params = `${track}&entity=allTrack`;
-
-        let request = await fetch(`${baseURL}?term=${params}`);
+        let params = parArtiste ? `&entity=allArtist` : `&entity=allTrack`;
+        let request = await fetch(`${baseURL}?term=${recherche}${params}`);
         let json = await request.json();
         let matchingArtists = json["results"];
         if (matchingArtists.length == 0 )
@@ -44,26 +40,33 @@ const RechercheScreen = () => {
             dispatch(addFavoriteTrack(item));
     };
 
-    /*const showDetails = (item) => {
-        dispatch(setTrack(item));
-        navigation.navigate("Détail");
-    };*/
-
-
     useEffect(() => {
-        if (artiste.trim() != "" || track.trim() != "")
+        if (recherche.trim() != "" && (parArtiste ^ parTrack))
             setValidate(true);
         else
             setValidate(false);
-    }, [artiste, track]);
+    }, [recherche, parArtiste, parTrack]);
 
     return (
         <View style={styles.container}>
-            <Text> Recherche par artiste : </Text>
-            <TextInput value={artiste} onChangeText={setArtiste} />
             <Text> Recherche par nom de track : </Text>
-            <TextInput value={track} onChangeText={setTrack} />
-            <Button title='Rechercher' disabled={!valideRecherche} onPress={fetchDatas} style={{marginTop: "10px"}} />
+            <TextInput value={recherche} onChangeText={setRecherche} />
+            <View style={{ flexDirection: "row"}} >
+                <Text>Recherche par : </Text>
+                <Checkbox
+                    value={parArtiste}
+                    onValueChange={setParArtiste}
+                    color={parArtiste ? '#4630EB' : undefined}
+                />
+                <Text> artiste </Text>
+                <Checkbox
+                    value={parTrack}
+                    onValueChange={setParTrack}
+                    color={parTrack ? '#4630EB' : undefined}
+                />
+                <Text> track </Text>
+            </View>
+            <Button title='Rechercher' disabled={!valideRecherche} onPress={() => fetchDatas()} style={{marginTop: "10px"}} />
             <StatusBar style="auto" />
 
             <Text>{message}</Text>
